@@ -1,7 +1,7 @@
 package com.charlie.weibo.service;
 
 import com.charlie.weibo.entity.User;
-import com.charlie.weibo.keys.KeyGenerator;
+import com.charlie.weibo.constant.KeyGenerator;
 import com.charlie.weibo.utils.SerializeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

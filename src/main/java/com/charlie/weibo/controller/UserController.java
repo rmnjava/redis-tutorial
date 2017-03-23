@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public long register(@RequestBody(required = false) User user) throws IOException {
+    public long register(@RequestBody User user) throws IOException {
         return userService.register(user);
     }
 

@@ -12,8 +12,8 @@ import org.springframework.context.annotation.PropertySource;
  */
 @SpringBootApplication
 @PropertySource(value = {
-        "classpath:application.properties",
-        "classpath:redis-pool.properties"
+        "classpath:redis-pool.properties",
+        "classpath:application.yaml"
 })
 public class Application extends SpringBootServletInitializer {
 

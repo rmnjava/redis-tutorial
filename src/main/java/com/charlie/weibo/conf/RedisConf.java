@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisSentinelPool;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by dhy on 17-3-22.
@@ -21,6 +26,8 @@ public class RedisConf {
                      @Value("${spring.redis.database}") int database,
                      @Value("${spring.redis.password}") String password,
                      @Value("${spring.redis.timeout}") int timeout,
+                     @Value("${spring.redis.sentinel.master}") String masterName,
+                     @Value("${spring.redis.sentinel.nodes}") String sentinelNodes,
                      @Value("${spring.redis.blockWhenExhausted}") boolean blockWhenExhausted,
                      @Value("${spring.redis.maxIdle}") int maxIdle,
                      @Value("${spring.redis.maxTotal}") int maxTotal,
@@ -31,6 +38,8 @@ public class RedisConf {
         this.timeout = timeout;
         this.password = password;
         this.database = database;
+        this.masterName = masterName;
+        Collections.addAll(this.sentinels, sentinelNodes.split(","));
 
         this.blockWhenExhausted = blockWhenExhausted;
         this.maxIdle = maxIdle;
@@ -38,6 +47,11 @@ public class RedisConf {
         this.minEvictableIdleTimeMillis = minEvictableIdleTimeMillis;
     }
 
+    @Bean
+    public JedisSentinelPool sentinelPool() {
+        logger.info("the redis sentinel pool start initialize...");
+        return new JedisSentinelPool(masterName, sentinels, jedisPoolConfig(), timeout, null, database);
+    }
 
     @Bean
     public JedisPool redisPool() {
@@ -64,6 +78,9 @@ public class RedisConf {
     private int database;
     private int timeout;
     private String password;
+
+    private String masterName;
+    private Set<String> sentinels = new HashSet<>();
 
     private boolean blockWhenExhausted;
     private int maxIdle;
