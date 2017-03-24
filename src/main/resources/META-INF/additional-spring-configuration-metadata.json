@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "spring.redis.pool.blockWhenExhausted",
+      "type": "java.lang.Boolean",
+      "description": "Description for spring.redis.pool.blockWhenExhausted."
+    },
+    {
+      "name": "spring.redis.pool.maxTotal",
+      "type": "java.lang.Integer",
+      "description": "Description for spring.redis.pool.maxTotal."
+    },
+    {
+      "name": "spring.redis.pool.minEvictableIdleTimeMillis",
+      "type": "java.lang.Integer",
+      "description": "Description for spring.redis.pool.minEvictableIdleTimeMillis."
+    }
+  ]
+}

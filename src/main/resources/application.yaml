@@ -17,6 +17,15 @@ spring:
     sentinel:
       master: mymaster
       nodes: 127.0.0.1:26380
+    pool:
+      #当连接池消耗完毕时阻塞直到超时
+      blockWhenExhausted: true
+      #最大空闲连接数
+      maxIdle: 10
+      #最大连接数
+      maxTotal: 10
+      #最长空闲时间,一分钟
+      minEvictableIdleTimeMillis: 60000
   #配置springmvc静态文件
   mvc:
     static-path-pattern: /*.html

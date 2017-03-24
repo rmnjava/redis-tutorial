@@ -3,6 +3,7 @@ package com.charlie.weibo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.PropertySource;
 
@@ -11,10 +12,8 @@ import org.springframework.context.annotation.PropertySource;
  *
  */
 @SpringBootApplication
-@PropertySource(value = {
-        "classpath:redis-pool.properties",
-        "classpath:application.yaml"
-})
+@PropertySource(value = "classpath:application.yaml")
+@EnableConfigurationProperties
 public class Application extends SpringBootServletInitializer {
 
     @Override

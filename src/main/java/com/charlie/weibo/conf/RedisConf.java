@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  * Created by dhy on 17-3-22.
- * redis配置文件
+ * redis配置文件, 原 Spring 风格
  */
 @Configuration
 public class RedisConf {
@@ -28,10 +28,10 @@ public class RedisConf {
                      @Value("${spring.redis.timeout}") int timeout,
                      @Value("${spring.redis.sentinel.master}") String masterName,
                      @Value("${spring.redis.sentinel.nodes}") String sentinelNodes,
-                     @Value("${spring.redis.blockWhenExhausted}") boolean blockWhenExhausted,
-                     @Value("${spring.redis.maxIdle}") int maxIdle,
-                     @Value("${spring.redis.maxTotal}") int maxTotal,
-                     @Value("${spring.redis.minEvictableIdleTimeMillis}") int minEvictableIdleTimeMillis) {
+                     @Value("${spring.redis.pool.blockWhenExhausted}") boolean blockWhenExhausted,
+                     @Value("${spring.redis.pool.maxIdle}") int maxIdle,
+                     @Value("${spring.redis.pool.maxTotal}") int maxTotal,
+                     @Value("${spring.redis.pool.minEvictableIdleTimeMillis}") int minEvictableIdleTimeMillis) {
 
         this.host = host;
         this.port = port;

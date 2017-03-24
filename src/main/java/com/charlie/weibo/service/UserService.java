@@ -5,10 +5,7 @@ import com.charlie.weibo.constant.KeyGenerator;
 import com.charlie.weibo.utils.SerializeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Response;
-import redis.clients.jedis.Transaction;
+import redis.clients.jedis.*;
 
 import java.util.List;
 
@@ -19,12 +16,14 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    public UserService(JedisPool jedisPool) {
+    public UserService(JedisPool jedisPool, JedisSentinelPool sentinelPool) {
         this.jedisPool = jedisPool;
+        this.sentinelPool = sentinelPool;
     }
 
     public long register(User user) {
-        Jedis jedis = jedisPool.getResource();
+//        Jedis jedis = jedisPool.getResource();
+        Jedis jedis = sentinelPool.getResource();
         boolean isMember = jedis.sismember(KeyGenerator.USER_NAME, user.getUserName());
         jedis.watch(KeyGenerator.USER_ID, KeyGenerator.USER_NAME);
         Transaction transaction = jedis.multi();
@@ -46,4 +45,6 @@ public class UserService {
     }
 
     private JedisPool jedisPool;
+
+    private JedisSentinelPool sentinelPool;
 }
