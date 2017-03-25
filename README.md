@@ -5,6 +5,14 @@
 1. 测试redis事务的用法;
 2. 测试通过Sentinel实现redis节点容灾;
 
+### 增加分布式测试
+
+```git
+git checkout cluster
+```
+
+切换到cluster分支后请按照[redis分布式官方教程](https://redis.io/topics/cluster-tutorial#creating-and-using-a-redis-cluster)部署伪分布式节点;
+
 ### 注意事项
 
 1. 在执行 Sentinel 时必须显示的指定一个配置文件,并且Sentinel进程会复写该文件,所以在每次启动Sentinel时都必须还原该文件,否则可能引起程序结果异常;
