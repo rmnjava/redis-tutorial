@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.JedisSentinelPool;
+import redis.clients.jedis.*;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -31,7 +29,10 @@ public class RedisConf {
                      @Value("${spring.redis.pool.blockWhenExhausted}") boolean blockWhenExhausted,
                      @Value("${spring.redis.pool.maxIdle}") int maxIdle,
                      @Value("${spring.redis.pool.maxTotal}") int maxTotal,
-                     @Value("${spring.redis.pool.minEvictableIdleTimeMillis}") int minEvictableIdleTimeMillis) {
+                     @Value("${spring.redis.pool.minEvictableIdleTimeMillis}") int minEvictableIdleTimeMillis,
+                     @Value("${spring.redis.cluster.nodes}") String nodes,
+                     @Value("${spring.redis.cluster.node-timeout}") int nodeTimeout,
+                     @Value("${spring.redis.cluster.max-redirects}") int maxRedirects) {
 
         this.host = host;
         this.port = port;
@@ -41,10 +42,23 @@ public class RedisConf {
         this.masterName = masterName;
         Collections.addAll(this.sentinels, sentinelNodes.split(","));
 
+        this.maxRedirects = maxRedirects;
+        this.nodeTimeout = nodeTimeout;
+        String[] hostAndPortArr = nodes.split(",");
+        for (String hap : hostAndPortArr) {
+            String[] hostOrPort = hap.split(":");
+            this.nodes.add(new HostAndPort(hostOrPort[0], Integer.parseInt(hostOrPort[1])));
+        }
+
         this.blockWhenExhausted = blockWhenExhausted;
         this.maxIdle = maxIdle;
         this.maxTotal = maxTotal;
         this.minEvictableIdleTimeMillis = minEvictableIdleTimeMillis;
+    }
+
+    @Bean
+    public JedisCluster jedisCluster() {
+       return new JedisCluster(nodes, 1000, maxRedirects);
     }
 
     @Bean
@@ -81,6 +95,10 @@ public class RedisConf {
 
     private String masterName;
     private Set<String> sentinels = new HashSet<>();
+
+    private int maxRedirects;
+    private int nodeTimeout;
+    private Set<HostAndPort> nodes = new HashSet<>();
 
     private boolean blockWhenExhausted;
     private int maxIdle;

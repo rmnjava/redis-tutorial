@@ -1,5 +1,6 @@
 package com.charlie.weibo.conf;
 
+import com.charlie.weibo.utils.SerializeUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -72,6 +73,30 @@ public class RedisSetting {
 
         public void setMaster(String master) {
             this.master = master;
+        }
+
+        public Set<String> getNodes() {
+            return nodes;
+        }
+
+        public void setNodes(String nodes) {
+            if (this.nodes == null) {
+                this.nodes = new HashSet<>();
+            }
+            Collections.addAll(this.nodes, nodes.split(","));
+        }
+    }
+
+    public static class Cluster {
+        private int maxRedirects;
+        private Set<String> nodes;
+
+        public int getMaxRedirects() {
+            return maxRedirects;
+        }
+
+        public void setMaxRedirects(int maxRedirects) {
+            this.maxRedirects = maxRedirects;
         }
 
         public Set<String> getNodes() {

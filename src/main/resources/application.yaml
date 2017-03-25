@@ -26,6 +26,10 @@ spring:
       maxTotal: 10
       #最长空闲时间,一分钟
       minEvictableIdleTimeMillis: 60000
+    cluster:
+      nodes: 127.0.0.1:7000, 127.0.0.1:7001, 127.0.0.1:7002, 127.0.0.1:7003, 127.0.0.1:7004, 127.0.0.1:7005
+      max-redirects: 10
+      node-timeout: 1000
   #配置springmvc静态文件
   mvc:
     static-path-pattern: /*.html

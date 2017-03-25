@@ -16,9 +16,10 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    public UserService(JedisPool jedisPool, JedisSentinelPool sentinelPool) {
+    public UserService(JedisPool jedisPool, JedisSentinelPool sentinelPool, JedisCluster jedisCluster) {
         this.jedisPool = jedisPool;
         this.sentinelPool = sentinelPool;
+        this.jedisCluster = jedisCluster;
     }
 
     public long register(User user) {
@@ -47,4 +48,6 @@ public class UserService {
     private JedisPool jedisPool;
 
     private JedisSentinelPool sentinelPool;
+
+    private JedisCluster jedisCluster;
 }
